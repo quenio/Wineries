@@ -1,10 +1,22 @@
+- [x] Normalizar and visualizar os dados.
+- [x] Escolher os parametros de entrada mais promissores
+  - [x] Alc. (1)
+  - [x] M. Acid. (2)
+  - [x] T. Phenols (6)
+  - [x] Flav. (7)
+  - [x] Color (10)
+  - [x] Hue (11)
+  - [x] OD (12)
+  - [x] Proline (13)
+- [x] Normalizar e visualizar os dados selecionados.
+- [x] Criar e simular com um protótipo da rede neural com random training.
 - [ ] Separar o conjunto de treinamento e o conjunto de testes.
-- [ ] Normalizar os dados.
 - [ ] Definir a arquitetura da rede neural.
 - [ ] Treinar a rede neural.
 - [ ] Fazer os experimentos.
 - [ ] Escrever o relatório com as seções:
   - [ ] Introdução
+  - [ ] Parâmetros de Entrada
   - [ ] Conjunto de Treinamento
   - [ ] Conjunto de Teste
   - [ ] Normalização dos Dados
@@ -13,4 +25,3 @@
   - [ ] Experimentos
   - [ ] Resultado dos Experiementos
   - [ ] Conclusão
-  
