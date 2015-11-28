@@ -1,4 +1,4 @@
-function data_view(data, start_row, targets)
+function data_view3(data, start_row, targets)
     grid on; hold on;
     data_size = size(data,2);
     j = start_row - 1;
