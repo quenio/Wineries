@@ -1,0 +1,16 @@
+- [ ] Separar o conjunto de treinamento e o conjunto de testes.
+- [ ] Normalizar os dados.
+- [ ] Definir a arquitetura da rede neural.
+- [ ] Treinar a rede neural.
+- [ ] Fazer os experimentos.
+- [ ] Escrever o relatório com as seções:
+  - [ ] Introdução
+  - [ ] Conjunto de Treinamento
+  - [ ] Conjunto de Teste
+  - [ ] Normalização dos Dados
+  - [ ] Arquitetura da Rede Neural
+  - [ ] Treinamento da Rede
+  - [ ] Experimentos
+  - [ ] Resultado dos Experiementos
+  - [ ] Conclusão
+  
