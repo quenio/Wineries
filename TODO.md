@@ -10,13 +10,12 @@
   - [x] Proline (13)
 - [x] Normalizar e visualizar os dados selecionados.
 - [x] Criar e simular com um protótipo da rede neural com random training.
-- [ ] Separar o conjunto de treinamento e o conjunto de testes.
-- [ ] Definir a arquitetura da rede neural.
-- [ ] Treinar a rede neural.
-- [ ] Fazer os experimentos.
+- [x] Separar o conjunto de treinamento e o conjunto de testes.
+- [x] Definir a arquitetura da rede neural.
+- [x] Treinar a rede neural.
+- [x] Fazer os experimentos.
 - [ ] Escrever o relatório com as seções:
   - [ ] Introdução
-  - [ ] Parâmetros de Entrada
   - [ ] Conjunto de Treinamento
   - [ ] Conjunto de Teste
   - [ ] Normalização dos Dados
@@ -24,4 +23,5 @@
   - [ ] Treinamento da Rede
   - [ ] Experimentos
   - [ ] Resultado dos Experiementos
+  - [ ] Otimização dos Parâmetros de Entrada
   - [ ] Conclusão
