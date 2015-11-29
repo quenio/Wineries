@@ -15,10 +15,10 @@
 - [x] Treinar a rede neural.
 - [x] Fazer os experimentos.
 - [ ] Escrever o relatório com as seções:
-  - [ ] Introdução
-  - [ ] Conjunto de Treinamento
-  - [ ] Conjunto de Teste
+  - [x] Introdução
   - [ ] Normalização dos Dados
+  - [ ] Protótipação Rápida 
+  - [x] Conjunto de Treinamento e de Teste
   - [ ] Arquitetura da Rede Neural
   - [ ] Treinamento da Rede
   - [ ] Experimentos
