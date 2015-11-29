@@ -16,8 +16,9 @@
 - [x] Fazer os experimentos.
 - [ ] Escrever o relatório com as seções:
   - [x] Introdução
-  - [ ] Normalização dos Dados
-  - [ ] Protótipação Rápida 
+  - [x] Normalização dos Dados de Entrada
+  - [ ] Saturação dos Dados de Saída
+  - [x] Protótipação Rápida
   - [x] Conjunto de Treinamento e de Teste
   - [ ] Arquitetura da Rede Neural
   - [ ] Treinamento da Rede

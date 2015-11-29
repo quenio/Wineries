@@ -15,7 +15,7 @@ Os dados foram fornecidos em duas matrizes carregáveis no `MatLab`:
 - `x`: que contém os dados da análise química dos vinhos, onde cada linha representa o componente químico analisado e cada coluna representa uma amostra de vinho.
 - 't': contendo a informação de qual vinhedo pertence a amostra de vinho, onde cada linha representa um vinhedo e cada coluna representa a amostra de vinho correspondendo à coluna de mesmo número na matrix `x`.
 
-## Normalização dos Dados
+## Normalização dos Dados de Entrada
 
 Antes de definir e treinar a rede neural, é preciso normalizar os dados das análises químicas no intervalo [-1, 1]. A normalização permite o melhor desempenho da função de treinamento da rede quando se usa a função de transferência `tangente sigmoidal`, que tem maior variação no intervalo [-1, 1].
 
@@ -29,18 +29,66 @@ xn = mapminmax(x);
 
 Esta normalização foi feita nos scripts `quick_net.m` e `verified_net.m` que serão usados nas próximas seções.
 
+## Saturação dos Dados de Saída
+
 ## Protótipação Rápida
+
+A fim de nos familiarizarmos com as funções da `Neural Net Toolbox` e com o processo de treinamento e verificação, implementação um script chamado `quick_net.m` que cria, treina e valida uma rede usando o mesmo conjunto de dados. Veja abaixo:
+
+```python
+function quick_net(net_size, x, t)
+    xn = mapminmax(x);
+
+    net = newff(xn, t, net_size, {'tansig','tansig'}, 'trainlm');
+    net.trainParam.epochs = 1000;
+    net.trainParam.goal = 0;
+
+    net = train(net,xn,t);
+    y = saturate(sim(net, xn));
+    plotconfusion(t, y);
+end
+```
+
+Na função `quick_net` lista acima, observe o seguinte:
+
+- Além do conjunto de dados de entrada `x` e do conjunto alvo `t`, a função também recebe como entrada o número de neurônios da camada intermediária.
+- Primeiramente, a função normaliza os dados usando `mapminmax`.
+- Logo após, a rede é criada usando a função de transferência `tangente sigmoidal` tanto para os neurônios da camada intermediária, quanto para os neurônios da camada de saída. Fizemos assim a rede ser compatível com os dados normalizados do conjunto de entrada.
+- O treinamento terá a seguinte configuração:
+    - 'trainlm': Levenberg-Marquardt é usado no treinamento para que se alcance mínimo do gradiente no menor número de épocas possível.
+    - `epochs = 1000`: Mil épocas é mais que suficiente para Levenberg-Marquardt.
+    - `goal = 0`: Com error zero deseja atingir o mínimo, ao invés de apenas uma aproximação.
+    - proporcão de treinamento, validação e teste: se não forem especifados, os conjuntos de treinamento, validação e de teste serão aleatóriamente construídos numa proporção de 60%, 20% e 20%, respecitivamente.
+- Uma vez treinada a rede, a função `quick_net`, executa a rede sobre os mesmos dados de treinamento e compara o resultado com os dados originais num gráfico.
+
+Para fazer experimentos com o script acima, criou-se redes de 3 a 7 neurônios intermediários sobre todas as treze análises químicas fornecidas no conjunto de dados original. Após várias execuções, o resultado da melhor performance de cada rede foi colocado na pasta `testes` em arquivos com o prefixo `quick_13i_`.
+
+Observamos que foi possível gerar redes que alcançam 100% de acertos em todas as configurações - de 3 a 7 neurônios. Porém, nem todas a redes geradas atingiam este nível de acerto. A taxa de acerto variava entre 95% a 100%.
 
 ## Conjuntos de Treinamento e de Teste
 
-Antes de definir a rede neural que irá reconhecer a origem das amostras de vinho, é preciso separar os dados em dois conjuntos distintos:
+Usando o mesmo conjunto para treinamento e para a verificação da rede neural, como foi feito na seção anterior de prototipação, não vai mostrar como a rede se comporta com novas amostras.
+
+Portanto, antes de definir a rede neural que irá reconhecer a origem das amostras de vinho, é preciso separar os dados em dois conjuntos distintos:
 
 - _conjunto de treinamento_: que contém os dados que fazem o treinamento da rede neural;
-- _conjunto de teste_: contendo os dados que verificam o desenpenho da rede.
+- _conjunto de teste_: contendo os dados que verificam o desempenho da rede.
 
-Estes conjuntos precisam ser distintos para provar que o treinamento efetuado permite a rede reconhecer novos padrões.
-
-Também é preciso definir o tamanho da fatia do conjunto original de dados que será usado para treinamento e o conjunto que será usado para teste. Para nossos experiementos, usamos as seguintes proporções:
+Também é preciso definir o tamanho da fatia do conjunto original de dados que será usado para treinamento e o tamanho da fatia que será usada para teste. Para nossos experimentos, usamos as seguintes proporções:
 
 - _dois terços para treinamento_: a maior parte das amostras de vinho foi usada para treinamento, pois uma rede bem treinada deve ter um melhor desempenho na determinação da origem do vinho.
 - _um terço para testes_: a menor parte dos dados foi usada para testes, pois é possível verificar o desempenho da rede com um número menor dos amostras, desde que sejam representativas da população de amostras de vinho.
+
+Como os dados de amostra foram ordenados por vinhedo, usou-se o código seguinte para distribuir igualmente os vinhedos entre os conjuntos de treinamento e teste:
+
+```python
+x_train = [xn(:,1:3:end), xn(:,3:3:end)];
+x_test = xn(:,2:3:end);
+
+t_train = [t(:,1:3:end), t(:,3:3:end)];
+t_test = t(:,2:3:end);
+```
+
+Observe que no código acima intercalamos entre as colunas para conseguir uma variedade entre os conjuntos na proporção desejada.
+
+## Arquitetura da Rede Neural
