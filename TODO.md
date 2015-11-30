@@ -23,4 +23,4 @@
   - [x] Arquitetura da Rede Neural
   - [x] Experimentos
   - [x] Otimização dos Parâmetros de Entrada
-  - [ ] Conclusão
+  - [x] Conclusão
