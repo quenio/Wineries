@@ -21,7 +21,6 @@
   - [x] Protótipação Rápida
   - [x] Conjunto de Treinamento e de Teste
   - [x] Arquitetura da Rede Neural
-  - [ ] Experimentos
-  - [ ] Resultado dos Experiementos
+  - [x] Experimentos
   - [ ] Otimização dos Parâmetros de Entrada
   - [ ] Conclusão

@@ -162,3 +162,9 @@ Ao criar a rede neural, estabelecemos a sua arquitetura desta forma:
 Uma vez treinada a rede usando somente o conjunto de treinamento, a rede é executada para o conjunto de teste. A comparação é feita então entre a saída já saturada e a matriz de saída original `t`.
 
 Na próxima seção, rodamos vários experimentos para verificar a performance desta rede.
+
+## Verificação da Rede Neural
+
+Assim como foi feito com o protótipo, verificamos o desempenho da rede neural definida na seção anterior com o número de neurônios da camada intermediária variando de 3 a 7. Os testes foram feitos sobre todas as treze análises químicas fornecidas no conjunto de dados original, porém com a divisão do conjunto de treinamento e de de teste, como implementado em `verified_net.m`. Após várias execuções, o resultado da melhor performance de cada rede foi colocado na pasta `testes` em arquivos com o prefixo `verified_13i_`.
+
+Para as configurações de 4, 5 e 6 neurônios, foi possível gerar redes que alcançaram 100% de acertos quando testadas sobre os dados de treinamento. Já, nos testes com 3 e 7 neurônios, conseguimos gerar redes com no máximo 98% de acerto. Também observamos que as redes com 5 neurônios resultando em 100% de acerto foram geradas com mais frquência do que na configuração de 4 e 6 neurônios. O que nos faz pensar que 5 neurônios parece ser o número ideal para este conjundo de dados e esta arquitetura de rede.
