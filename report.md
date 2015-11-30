@@ -31,9 +31,37 @@ Esta normalização foi feita nos scripts `quick_net.m` e `verified_net.m` que s
 
 ## Saturação dos Dados de Saída
 
+Na matriz `t`, que representada a saída esperada, tem-se o valor `1` para o vinhedo que é a origem de uma amostra de vinho e o valor `0` para os demais vinhedos. No treinamento da rede neural, a função de treinamento vai ajustar a rede para que esta se aproxime dos valores encontrados em `t`. Como é apenas uma aproximação, precisamos de uma função que converta os valores de saída em zeros e uns. Isto nos permitirá comparar as saídas da rede com os valores em `t` a fim the verificar o desempenho da rede. Este processo é chamado de "saturação".
+
+A função de saturação é mostrada abaixo:
+
+```python
+function s = saturate(output)
+    row_size = size(output, 1);
+    col_size = size(output, 2);
+    s = zeros(row_size, col_size);
+    for i = 1:col_size
+        v = output(:, i);
+        if v(1) > v(2) && v(1) > v(3)
+            s(1, i) = 1;
+        elseif v(2) > v(1) && v(2) > v(3)
+            s(2, i) = 1;
+        else
+            s(3, i) = 1;
+        end    
+    end
+end
+```
+
+Observe no código acima que criamos uma nova matriz de mesma dimensão que a matriz de saída (`t`). Inicialmente, esta matriz tem zeros em todas as suas célculas. Depois o valor `1` é colocado na célula da linha que contém o maior valor em `t`, ou seja, o valor mais perto de `1`.
+
+Esta função é utiliza pelos scripts `quick_net.m` e `verified_net.m` - usados nas próximas seções - para "saturar" a saída da rede e permitir a comparação com `t`.
+
 ## Protótipação Rápida
 
-A fim de nos familiarizarmos com as funções da `Neural Net Toolbox` e com o processo de treinamento e verificação, implementação um script chamado `quick_net.m` que cria, treina e valida uma rede usando o mesmo conjunto de dados. Veja abaixo:
+A fim de nos familiarizarmos com as funções da `Neural Net Toolbox`, e com o processo de treinamento e verificação, implementamos um script chamado `quick_net.m` que cria, treina e valida uma rede usando o mesmo conjunto de dados.
+
+Veja o código abaixo:
 
 ```python
 function quick_net(net_size, x, t)
@@ -49,7 +77,7 @@ function quick_net(net_size, x, t)
 end
 ```
 
-Na função `quick_net` lista acima, observe o seguinte:
+Na função `quick_net` listada acima, observe o seguinte:
 
 - Além do conjunto de dados de entrada `x` e do conjunto alvo `t`, a função também recebe como entrada o número de neurônios da camada intermediária.
 - Primeiramente, a função normaliza os dados usando `mapminmax`.
@@ -57,13 +85,15 @@ Na função `quick_net` lista acima, observe o seguinte:
 - O treinamento terá a seguinte configuração:
     - 'trainlm': Levenberg-Marquardt é usado no treinamento para que se alcance mínimo do gradiente no menor número de épocas possível.
     - `epochs = 1000`: Mil épocas é mais que suficiente para Levenberg-Marquardt.
-    - `goal = 0`: Com error zero deseja atingir o mínimo, ao invés de apenas uma aproximação.
-    - proporcão de treinamento, validação e teste: se não forem especifados, os conjuntos de treinamento, validação e de teste serão aleatóriamente construídos numa proporção de 60%, 20% e 20%, respecitivamente.
-- Uma vez treinada a rede, a função `quick_net`, executa a rede sobre os mesmos dados de treinamento e compara o resultado com os dados originais num gráfico.
+    - `goal = 0`: Com erro zero desejamos atingir o mínimo da função, ao invés de apenas uma aproximação.
+    - a proporcão de treinamento, validação e teste: como não foram especifados os conjuntos de treinamento, validação e de teste, estes serão aleatóriamente construídos numa proporção de 60%, 20% e 20%, respectivamente.
+- Uma vez treinada a rede, a função `quick_net`, executa a rede sobre os mesmos dados de treinamento e compara o resultado com os dados originais num gráfico. Esta não é a melhor de verificar a rede, como veremos nas próximas seções, mas é suficiente para nossa prototipação rápida.
 
 Para fazer experimentos com o script acima, criou-se redes de 3 a 7 neurônios intermediários sobre todas as treze análises químicas fornecidas no conjunto de dados original. Após várias execuções, o resultado da melhor performance de cada rede foi colocado na pasta `testes` em arquivos com o prefixo `quick_13i_`.
 
-Observamos que foi possível gerar redes que alcançam 100% de acertos em todas as configurações - de 3 a 7 neurônios. Porém, nem todas a redes geradas atingiam este nível de acerto. A taxa de acerto variava entre 95% a 100%.
+Observamos nos experimentos que foi possível gerar redes que alcançam 100% de acertos em todas as configurações - de 3 a 7 neurônios - como demonstrado nos arquivos da pasta `testes`. Porém, nem todas a redes geradas atingiram este nível de acerto. A taxa de acerto variava entre 95% a 100%.
+
+Como já dissemos antes, não é recomandado usar o mesmo conjunto de treinamento para os testes. A próxima seção cuidará desta questão.
 
 ## Conjuntos de Treinamento e de Teste
 
