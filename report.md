@@ -225,3 +225,11 @@ Após executar `verified_net.m` sobre os dados selecionados, para nossa supresa,
 Já, quando executamos `quick_net.m`, foi possível alcançar acertos de 100%. Neste caso, porém os dados de teste eram os mesmos dados de treinamento, o que faz do resultado pouco expressivo. Os resultados estão nos arquivo com prefixo `quick_8i_`.
 
 ## Conclusão
+
+Este trabalho nos permitiu aprender a usar o `MatLab` e sua `Neural Net Toolbox` para criar e testar redes neurais que podem ser aplicadas a áreas diversas. Também nos mostrou que existe todo um processo a ser seguido para que as redes criadas possam ser verificadas e posteriormente utilizadas.
+
+Além disso, através da tentativa de otimização, percebemos que o resultado dos experimentos nem sempre são os esperados. Que é preciso iterar sobre os resultados e fazer mais experimentos até que se possa chegar no resultado desejado. Por exemplo, no caso da otimização, um próximo passo seria tentar identificar - talvez através de uma visualização diferente dos dados - porque as análises quimicas adicionais - que pareciam não diferenciar as amostras - puderam na prática melhorar o desempenho. Baseado nestas conclusões, talvez seria possível selecionar um novo sub-conjunto das análises químicas que teria um desempenho melhor.
+
+Outra questão que seria interessante explorar após este trabalho, seria como transferir a rede neural desenvolvida no `MatLab` para um software desenvolvido nas plataformas convencionais, como o Java, a fim de incorporá-lo numa aplicação que pudesse benefeciar os usuários finais.
+
+Certamente, esta técnica, e tantas outras, mostram o potencial da área de Inteligência Artificial como diferencial no desenvolvimento de aplicações.
