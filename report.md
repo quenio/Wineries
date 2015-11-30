@@ -93,7 +93,7 @@ Para fazer experimentos com o script acima, criou-se redes de 3 a 7 neurônios i
 
 Observamos nos experimentos que foi possível gerar redes que alcançam 100% de acertos em todas as configurações - de 3 a 7 neurônios - como demonstrado nos arquivos da pasta `testes`. Porém, nem todas a redes geradas atingiram este nível de acerto. A taxa de acerto variava entre 95% a 100%.
 
-Como já dissemos antes, não é recomandado usar o mesmo conjunto de treinamento para os testes. A próxima seção cuidará desta questão.
+Como já dissemos antes, não é recomendado usar o mesmo conjunto de treinamento para os testes. A próxima seção cuidará desta questão.
 
 ## Conjuntos de Treinamento e de Teste
 
@@ -104,12 +104,12 @@ Portanto, antes de definir a rede neural que irá reconhecer a origem das amostr
 - _conjunto de treinamento_: que contém os dados que fazem o treinamento da rede neural;
 - _conjunto de teste_: contendo os dados que verificam o desempenho da rede.
 
-Também é preciso definir o tamanho da fatia do conjunto original de dados que será usado para treinamento e o tamanho da fatia que será usada para teste. Para nossos experimentos, usamos as seguintes proporções:
+Também é preciso definir o tamanho da fatia do conjunto original de dados que será usado para treinamento e o tamanho da fatia que será usada para testes. Para nossos experimentos, usamos as seguintes proporções:
 
 - _dois terços para treinamento_: a maior parte das amostras de vinho foi usada para treinamento, pois uma rede bem treinada deve ter um melhor desempenho na determinação da origem do vinho.
-- _um terço para testes_: a menor parte dos dados foi usada para testes, pois é possível verificar o desempenho da rede com um número menor dos amostras, desde que sejam representativas da população de amostras de vinho.
+- _um terço para testes_: a menor parte dos dados foi usada para testes, pois é possível verificar o desempenho da rede com um número menor de amostras, desde que sejam representativas da população de amostras de vinho.
 
-Como os dados de amostra foram ordenados por vinhedo, usou-se o código seguinte para distribuir igualmente os vinhedos entre os conjuntos de treinamento e teste:
+Como os dados de amostra foram ordenados por vinhedo, usou-se o código seguinte para distribuir igualmente os vinhedos entre os conjuntos de treinamento e de teste:
 
 ```python
 x_train = [xn(:,1:3:end), xn(:,3:3:end)];
@@ -119,6 +119,6 @@ t_train = [t(:,1:3:end), t(:,3:3:end)];
 t_test = t(:,2:3:end);
 ```
 
-Observe que no código acima intercalamos entre as colunas para conseguir uma variedade entre os conjuntos na proporção desejada.
+Observe que no código acima intercalamos entre as colunas das matrizes para conseguir uma variedade entre os conjuntos na proporção desejada. O conjunto de treinamento (`x_train`) recebeu duas vezes mais columas (ou amostras) do que o conjunto de teste (`x_test`). Da mesma forma ocorreu com os conjuntos de saída usados para treinamento e teste.
 
 ## Arquitetura da Rede Neural
