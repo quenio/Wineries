@@ -122,3 +122,43 @@ t_test = t(:,2:3:end);
 Observe que no código acima intercalamos entre as colunas das matrizes para conseguir uma variedade entre os conjuntos na proporção desejada. O conjunto de treinamento (`x_train`) recebeu duas vezes mais columas (ou amostras) do que o conjunto de teste (`x_test`). Da mesma forma ocorreu com os conjuntos de saída usados para treinamento e teste.
 
 ## Arquitetura da Rede Neural
+
+No script `verified_net.m`, nós criamos os conjuntos de treinamneto e de teste - como mostrado na seção anterior - e logo após criamos a rede neural a ser verificada.
+
+Veja o script abaixo:
+
+```python
+function verified_net(net_size, x, t)
+    xn = mapminmax(x);
+
+    x_train = [xn(:,1:3:end),xn(:,3:3:end)];
+    x_test = xn(:,2:3:end);
+
+    t_train = [t(:,1:3:end), t(:,3:3:end)];
+    t_test = t(:,2:3:end);
+
+    net = newff(x_train, t_train, net_size, {'tansig','tansig'}, 'traingda');
+
+    net.trainParam.epochs = 1500;
+    net.trainParam.goal = 0;
+
+    net.divideParam.trainRatio = 1.0;
+    net.divideParam.valRatio = 0;
+    net.divideParam.testRatio = 0;
+
+    net = train(net, x_train, t_train);
+    y = saturate(sim(net, x_test));
+    plotconfusion(t_test, y);
+end
+```
+
+Ao criar a rede neural, estabelecemos a sua arquitetura desta forma:
+
+- _rede feed-forward_: a rede escolhida é do tipo "feed-forward" com "back propagation". Este tipo de rede utiliza o produto do vetor de entrada com o vetor dos pesos para calcular a saída de cada _perceptron_, juntamente com a função de transferência.
+- _tansig_: a função de transferência usada nas camadas intermediárias e de saída é "tangente sigmoidal", que é compatível com os dados de entrada normalizados.
+- _traingda_: aqui - diferentemente da rede protótipo das seções anteriores - foi escolhido a função de treinamento "gradiente descendente" apenas para verificar a necessidade de mais épocas para achar o mínimo da função.
+- Nesta rede não haverá validação ou testes durante o treinamento. Apenas a verificação do erro.
+
+Uma vez treinada a rede usando somente o conjunto de treinamento, a rede é executada para o conjunto de teste. A comparação é feita então entre a saída já saturada e a matriz de saída original `t`.
+
+Na próxima seção, rodamos vários experimentos para verificar a performance desta rede.

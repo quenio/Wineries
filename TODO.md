@@ -17,11 +17,10 @@
 - [ ] Escrever o relatório com as seções:
   - [x] Introdução
   - [x] Normalização dos Dados de Entrada
-  - [ ] Saturação dos Dados de Saída
+  - [x] Saturação dos Dados de Saída
   - [x] Protótipação Rápida
   - [x] Conjunto de Treinamento e de Teste
-  - [ ] Arquitetura da Rede Neural
-  - [ ] Treinamento da Rede
+  - [x] Arquitetura da Rede Neural
   - [ ] Experimentos
   - [ ] Resultado dos Experiementos
   - [ ] Otimização dos Parâmetros de Entrada
