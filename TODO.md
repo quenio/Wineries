@@ -22,5 +22,5 @@
   - [x] Conjunto de Treinamento e de Teste
   - [x] Arquitetura da Rede Neural
   - [x] Experimentos
-  - [ ] Otimização dos Parâmetros de Entrada
+  - [x] Otimização dos Parâmetros de Entrada
   - [ ] Conclusão

@@ -168,3 +168,60 @@ Na próxima seção, rodamos vários experimentos para verificar a performance d
 Assim como foi feito com o protótipo, verificamos o desempenho da rede neural definida na seção anterior com o número de neurônios da camada intermediária variando de 3 a 7. Os testes foram feitos sobre todas as treze análises químicas fornecidas no conjunto de dados original, porém com a divisão do conjunto de treinamento e de de teste, como implementado em `verified_net.m`. Após várias execuções, o resultado da melhor performance de cada rede foi colocado na pasta `testes` em arquivos com o prefixo `verified_13i_`.
 
 Para as configurações de 4, 5 e 6 neurônios, foi possível gerar redes que alcançaram 100% de acertos quando testadas sobre os dados de treinamento. Já, nos testes com 3 e 7 neurônios, conseguimos gerar redes com no máximo 98% de acerto. Também observamos que as redes com 5 neurônios resultando em 100% de acerto foram geradas com mais frquência do que na configuração de 4 e 6 neurônios. O que nos faz pensar que 5 neurônios parece ser o número ideal para este conjundo de dados e esta arquitetura de rede.
+
+## Tentatiza de Otimização dos Parâmetros de Entrada
+
+Outro experimento que realizamos foi a tentativa de diminuição do número de análises químicas necessárias para a determinação da origem do vinho. A intenção aqui seria diminuir o custo de uso da rede neural, visto que cada análise química adicional aumenta o custo. A questão então foi selecionar quais análises químicas seriam suficientes para a seleção confiável da origem das amostras de vinho.
+
+Para avaliar as análises químicas, implementamos o script `data_view_matrix.m`, que imprime o gráfico do arquivo `data_view_matrix.pdf`. Este desenha na verdade vários gráficos, cada um combinando duas análises químicas e mostrando os pontos de cada vinhedo em cores diferentes. O resultado é uma matriz de gráficos mostrando todas as combinações possíveis entre as análises químicas. Além disso, na diagonal principal da matriz, foi impresso o histograma de cada análise quimica, com a distribuição de vinhedos.
+
+Veja abaixo o script que gera os gráficos:
+
+```python
+function data_view_matrix(data, targets, var_names)
+    column_size = size(data, 2);
+    group = zeros(1, column_size);
+    for i = 1:column_size
+        group(1, i) = group_no(targets, i);
+    end    
+    gplotmatrix(transpose(data), [], transpose(group), ['c','b','m'], [], [], false);
+    var_size = size(var_names, 1);
+    text(((1:1:var_size)/var_size)-0.10,...
+         repmat(-.05,1,var_size),...
+         var_names, 'FontSize',8);
+    text(repmat(-.04,1,var_size),...
+         ((var_size:-1:1)/var_size)-0.10,...
+         var_names, 'FontSize',8, 'Rotation',90);
+end
+
+function result = group_no(targets, column)
+    if targets(1,column) == 1
+        result = 1;
+    elseif targets(2,column) == 1
+        result = 2;
+    else
+        result = 3;
+    end    
+end    
+```
+
+Visto que o conjunto de dados tem várias dimensões, estes gráficos permitem uma visualização mais global da qualidade dos dados do que seria possível num único gráfico 3D com apenas três análises químicas. Após analisar os gráficos, selecionamos oito análises químicas que ofereciam a melhor diferenciação entre as origens dos vinhos, ou seja, aqueles gráficos que mostravam as menores interseções entre pelo menos dois vinhedos.
+
+As análises químicas selecionadas foram as seguintes:
+
+1. Alcohol
+2. Malic Acid
+3. Total Phenols
+4. Flavanoids
+5. Color Intensity
+6. Hue
+7. OD280/OD315
+8. Proline
+
+Os gráficos com a combinação das análises químicas selecionadas estão em `data_view_matrix_selected.pdf`.
+
+Após executar `verified_net.m` sobre os dados selecionados, para nossa supresa, verificamos um desempenho inferior daquele que vimos sobre o conjunto de dados com as treze análises. Esperávamos que o desempenho seria tão bom, ou ainda melhor, porque removemos aquelas análises químicas que não diferenciavam os vinhedos. Porém, nunca conseguimos acerto de 100% com as oito análises químicas selecionadas. Os resultados estão nos arquivos com o prefixo `verified_8i_`.
+
+Já, quando executamos `quick_net.m`, foi possível alcançar acertos de 100%. Neste caso, porém os dados de teste eram os mesmos dados de treinamento, o que faz do resultado pouco expressivo. Os resultados estão nos arquivo com prefixo `quick_8i_`.
+
+## Conclusão
